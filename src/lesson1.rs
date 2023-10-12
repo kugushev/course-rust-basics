@@ -20,7 +20,7 @@ fn compute2(input: &u32, output: &mut u32) {
 }
 
 fn test(){
-    let mut v = vec![];
+    let mut v = vec![1];
     v.split_at_mut(1);
 }
 
@@ -28,11 +28,22 @@ fn my_function(parameter1: String, parameter2: String) -> String {
     return format!("{} {}", parameter1, parameter2);
 }
 
-fn my_function(parameter1: String, parameter2: String) -> String {
+fn my_function1(parameter1: String, parameter2: String) -> String {
     format!("{} {}", parameter1, parameter2)
 }
 
 fn my_function_no_return(parameter1: String, parameter2: String) {
     println!("{} {}", parameter1, parameter2);
+}
+
+pub fn get_files_in_dir(input: &str) -> Vec<String> {
+    let mut result = Vec::new();
+    for entry in std::fs::read_dir(input).unwrap() {
+        let entry = entry.unwrap();
+        let path = entry.path();
+        let path_str = path.to_str().unwrap();
+        result.push(path_str.to_string());
+    }
+    result
 }
 
