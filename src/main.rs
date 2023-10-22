@@ -2,6 +2,7 @@ use std::{env, fs};
 use std::fmt::Debug;
 use std::fs::File;
 use log::{error, trace};
+use crate::lesson2::test;
 
 
 mod lesson1;
@@ -13,6 +14,7 @@ fn main() {
     // let file = File::open("foo.txt");
     // let f: File = file.unwrap();
 
+    test();
 
 }
 

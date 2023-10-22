@@ -1,7 +1,12 @@
 use std::fmt::Debug;
 
 
-fn test() {
+pub fn test() {
+    println!("Size");
+    println!("{}", std::mem::size_of::<MyZeroSizedStruct>());
+    let zst_arr = [MyZeroSizedStruct; 10];
+    println!("{}", std::mem::size_of_val(&zst_arr));
+
     let tuple = (42, "hello", true);
     my_trace(tuple);
 
@@ -26,7 +31,25 @@ fn test() {
     vec = 42.to_vec2();
     vec = (42, 42).to_vec2();
     vec = [42, 42].to_vec2();
+
+    ar(Box::new([42, 42]));
+
+    let my_factory = MyFactory;
+
+
+    let val = my_factory.create_a();
+    let val: i32 = my_factory.create_g();
 }
+
+fn associated(factory: impl FactoryAssociated) {
+    factory.create_a();
+}
+
+fn generic(factory: impl FactoryGeneric<i32>) {
+    factory.create_g();
+}
+
+fn ar(a: Box<[u32]>) {}
 
 #[derive(Copy, Clone)]
 struct MyStruct {
@@ -166,3 +189,74 @@ impl Convert for [i32; 2] {
         Vec2(self[0], self[1])
     }
 }
+
+impl Default for MyStruct {
+    fn default() -> Self {
+        todo!()
+    }
+}
+
+trait OtherTrait {}
+
+struct OtherStruct;
+
+// impl MyTrait for OtherStruct {
+//
+// }
+
+
+impl OtherTrait for MyStruct {}
+
+impl OtherTrait for OtherStruct {}
+// impl Default for i32 {}
+
+// fn is_powerful(value: [u32]) -> bool {
+//     todo!()
+// }
+
+trait FactoryAssociated {
+    type Item;
+    fn create_a(self) -> Self::Item;
+}
+
+trait FactoryGeneric<T> { fn create_g(self) -> T; }
+
+#[derive(Copy, Clone)]
+struct MyFactory;
+
+#[derive(Copy, Clone)]
+struct MyZeroSizedStruct;
+
+impl FactoryGeneric<i32> for MyFactory {
+    fn create_g(self) -> i32 { 42 }
+}
+
+impl FactoryGeneric<bool> for MyFactory {
+    fn create_g(self) -> bool { true }
+}
+
+
+impl FactoryAssociated for MyFactory {
+    type Item = i32;
+    fn create_a(self) -> Self::Item { 42 }
+}
+
+// impl FactoryAssociated for MyFactory {
+//     type Item = bool;
+//
+//     fn create_a(self) -> Self::Item {
+//         true
+//     }
+// }
+
+#[test]
+fn test_foo() {
+    /* ... */
+}
+
+// Inner attribute applies to the entire function.
+fn some_unused_variables() {
+    #![allow(unused_variables)]
+}
+
+
