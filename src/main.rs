@@ -7,6 +7,7 @@ use crate::lesson2::test;
 
 mod lesson1;
 mod lesson2;
+mod lesson3;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
