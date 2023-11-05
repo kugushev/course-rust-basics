@@ -3,11 +3,13 @@ use std::fmt::Debug;
 use std::fs::File;
 use log::{error, trace};
 use crate::lesson2::test;
+use crate::lesson4::obrm_usage;
 
 
 mod lesson1;
 mod lesson2;
 mod lesson3;
+mod lesson4;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -16,7 +18,7 @@ fn main() {
     // let f: File = file.unwrap();
 
     test();
-
+    obrm_usage();
 }
 
 

@@ -22,10 +22,10 @@ struct MyStr {
     num: i32,
 }
 
-#[derive(Copy, Clone)]
-struct MyReference<'a> {
-    reference: &'a mut MyStr,
-}
+// #[derive(Copy, Clone)]
+// struct MyReference<'a> {
+//     reference: &'a mut MyStr,
+// }
 
 struct MyStruct {
     str: String,
