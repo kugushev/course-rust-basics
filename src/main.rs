@@ -3,7 +3,7 @@ use std::fmt::Debug;
 use std::fs::File;
 use log::{error, trace};
 use crate::lesson2::test;
-use crate::lesson4::obrm_usage;
+use crate::lesson4::{obrm_usage, ref_cell_test_fail};
 
 
 mod lesson1;
@@ -19,6 +19,7 @@ fn main() {
 
     test();
     obrm_usage();
+    ref_cell_test_fail();
 }
 
 

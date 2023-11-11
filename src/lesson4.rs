@@ -9,9 +9,10 @@
 // }
 
 use std::alloc::{alloc, dealloc, handle_alloc_error, Layout};
+use std::cell::{Cell, Ref, RefCell, RefMut, UnsafeCell};
 use std::intrinsics::drop_in_place;
 use std::ops::Deref;
-use std::borrow::Borrow;
+use std::rc::Rc;
 
 struct User {
     first_name: String,
@@ -147,12 +148,78 @@ fn test_box() {
     println!("{}", reference.my_value);
 }
 
-fn test_box_s(){
+fn test_box_s() {
     let mut boxed = Box::new(MyStruct { my_value: 42 });
     let mut x: MyStruct = *boxed;
     x.my_value = 123;
     println!("{}", x.my_value);
     let reference = &x;
-    println!("{}", boxed.my_value)
-
+    // println!("{}", boxed.my_value)
 }
+
+fn dyn_arr(size: usize) {
+    let v = vec![1, 2, 3];
+    let b = v.into_boxed_slice();
+}
+
+fn rc_test() {
+    let owner1 = Rc::new(MyStruct { my_value: 42 });
+    let owner2: Rc<MyStruct> = owner1.clone();
+    let owner3: Rc<MyStruct> = owner2.clone();
+    println!("{}", owner3.my_value);
+    println!("{}", owner1.my_value);
+    println!("{}", owner2.my_value);
+    let reference: &MyStruct = &owner1;
+    println!("{}", reference.my_value);
+}
+
+fn cell_test() {
+    let cell = Cell::new(42);
+    let reference1: &Cell<i32> = &cell;
+    let reference2: &Cell<i32> = &cell;
+    println!("{}", reference1.get()); // > 42
+    reference1.replace(123);
+    println!("{}", reference2.get()); // > 123
+}
+
+fn ref_cell_test() {
+    let cell = RefCell::new(MyStruct { my_value: 42 });
+    {
+        let reference1: Ref<MyStruct> = cell.borrow();
+        println!("{}", reference1.my_value); // > 42
+    }
+    {
+        let mut borrowed: RefMut<MyStruct> = cell.borrow_mut();
+        borrowed.my_value = 123;
+    }
+
+    let reference2: Ref<MyStruct> = cell.borrow();
+    println!("{}", reference2.my_value); // > 123
+}
+
+pub fn ref_cell_test_fail() {
+    let cell = RefCell::new(MyStruct { my_value: 42 });
+
+    let reference1: Ref<MyStruct> = cell.borrow();
+    println!("{}", reference1.my_value); // > 42
+
+    {
+        let mut borrowed: RefMut<MyStruct> = cell.borrow_mut();
+        borrowed.my_value = 123;
+    }
+
+    let reference2: Ref<MyStruct> = cell.borrow();
+    println!("{}", reference2.my_value); // > 123
+}
+
+// impl<T: Copy> Cell<T> {
+//     pub fn get(&self) -> T {
+//         unsafe { *self.value.get() }
+//     }
+// }
+
+// impl<T: ?Sized> UnsafeCell<T> {
+//     pub const fn get(&self) -> *mut T {
+//         self as *const UnsafeCell<T> as *const T as *mut T
+//     }
+// }
