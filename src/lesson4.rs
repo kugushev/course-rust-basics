@@ -8,10 +8,11 @@
 //     println!("{} {} {}", user.first_name, user.second_name, user.middle_name);
 // }
 
-use std::alloc::{alloc, dealloc, handle_alloc_error, Layout};
+use std::alloc::{alloc, Allocator, dealloc, handle_alloc_error, Layout};
 use std::cell::{Cell, Ref, RefCell, RefMut, UnsafeCell};
 use std::intrinsics::drop_in_place;
 use std::ops::Deref;
+use std::ptr;
 use std::rc::Rc;
 
 struct User {
@@ -171,6 +172,8 @@ fn rc_test() {
     println!("{}", owner2.my_value);
     let reference: &MyStruct = &owner1;
     println!("{}", reference.my_value);
+
+    // Rc::downgrade().upgrade()
 }
 
 fn cell_test() {
@@ -223,3 +226,30 @@ pub fn ref_cell_test_fail() {
 //         self as *const UnsafeCell<T> as *const T as *mut T
 //     }
 // }
+
+// struct RefCell<T: ?Sized> {
+//     borrow: Cell<BorrowFlag>,
+//     borrowed_at: Cell<Option<&'static crate::panic::Location<'static>>>,
+//     value: UnsafeCell<T>,
+// }
+
+// unsafe impl<T: ?Sized, A: Allocator> Drop for Rc<T, A> {
+//     fn drop(&mut self) {
+//         unsafe {
+//             self.inner().dec_strong();
+//             if self.inner().strong() == 0 {
+//                 // destroy the contained object
+//                 ptr::drop_in_place(Self::get_mut_unchecked(self));
+//
+//                 // remove the implicit "strong weak" pointer now that we've
+//                 // destroyed the contents.
+//                 self.inner().dec_weak();
+//
+//                 if self.inner().weak() == 0 {
+//                     self.alloc.deallocate(self.ptr.cast(), Layout::for_value(self.ptr.as_ref()));
+//                 }
+//             }
+//         }
+//     }
+// }
+
