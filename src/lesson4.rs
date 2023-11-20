@@ -8,7 +8,7 @@
 //     println!("{} {} {}", user.first_name, user.second_name, user.middle_name);
 // }
 
-use std::alloc::{alloc, Allocator, dealloc, handle_alloc_error, Layout};
+use std::alloc::{alloc, dealloc, handle_alloc_error, Layout};
 use std::cell::{Cell, Ref, RefCell, RefMut, UnsafeCell};
 use std::intrinsics::drop_in_place;
 use std::ops::Deref;
