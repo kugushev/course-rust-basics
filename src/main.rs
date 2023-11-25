@@ -11,6 +11,7 @@ mod lesson2;
 mod lesson3;
 mod lesson4;
 mod lesson5;
+mod lesson6;
 
 fn main() {
     let args: Vec<String> = env::args().collect();

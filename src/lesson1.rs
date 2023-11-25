@@ -21,7 +21,7 @@ fn compute2(input: &u32, output: &mut u32) {
 
 fn test(){
     let mut v = vec![1];
-    v.split_at_mut(1);
+    let _ = v.split_at_mut(1);
 }
 
 fn my_function(parameter1: String, parameter2: String) -> String {
