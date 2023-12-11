@@ -4,7 +4,7 @@ use std::fs::File;
 use log::{error, trace};
 use crate::lesson2::test;
 use crate::lesson4::{obrm_usage, ref_cell_test_fail};
-use crate::lesson7::{test_slice, test_str};
+use crate::lesson7::{test_iter_cust, test_slice, test_str};
 
 
 mod lesson1;
@@ -25,8 +25,9 @@ fn main() {
     // obrm_usage();
     // ref_cell_test_fail();
 
-    test_slice();
-    test_str();
+    // test_slice();
+    // test_str();
+    test_iter_cust();
 }
 
 
