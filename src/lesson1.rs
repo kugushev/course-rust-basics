@@ -1,3 +1,4 @@
+use std::env::var;
 
 fn compute1(input: &u32, output: &mut u32) {
     if *input > 10 {
@@ -10,13 +11,26 @@ fn compute1(input: &u32, output: &mut u32) {
 }
 
 fn compute2(input: &u32, output: &mut u32) {
-    // let's draw
-    let cached_input = *input; // keep `*input` in a register
+    // compiler optimisation
+    let cached_input = *input;
     if cached_input > 10 {
         *output = 2;
     } else if cached_input > 5 {
         *output *= 2;
     }
+}
+
+fn run_compute(){
+    // let input = 42;
+    // let mut output = 0;
+    // compute(&input, &mut output);
+    // println!("output: {}", output); // 2
+}
+
+fn run_compute_bad(){
+    // let input_output = 42;
+    // compute(&input_output, &mut input_output);
+    // println!("output: {}", input_output); // 2
 }
 
 fn test(){
