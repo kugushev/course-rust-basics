@@ -10,7 +10,6 @@
 
 use std::alloc::{alloc, dealloc, handle_alloc_error, Layout};
 use std::cell::{Cell, Ref, RefCell, RefMut, UnsafeCell};
-use std::intrinsics::drop_in_place;
 use std::ops::Deref;
 use std::ptr;
 use std::rc::Rc;

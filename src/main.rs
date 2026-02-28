@@ -5,7 +5,8 @@ use log::{error, trace};
 use crate::lesson2::test;
 use crate::lesson4::{obrm_usage, ref_cell_test_fail};
 use crate::lesson7::{test_iter_cust, test_slice, test_str};
-
+use crate::playground::linked_list::test_linked_list;
+use crate::playground::linked_list_heap::test_linked_list_heap;
 
 mod lesson1;
 mod lesson2;
@@ -14,6 +15,7 @@ mod lesson4;
 mod lesson5;
 mod lesson6;
 mod lesson7;
+mod playground;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -27,7 +29,9 @@ fn main() {
 
     // test_slice();
     // test_str();
-    test_iter_cust();
+    // test_iter_cust();
+    
+    test_linked_list_heap()
 }
 
 
