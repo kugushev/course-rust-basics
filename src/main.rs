@@ -1,37 +1,23 @@
-use std::{env, fs};
-use std::fmt::Debug;
-use std::fs::File;
-use log::{error, trace};
-use crate::lesson2::test;
-use crate::lesson4::{obrm_usage, ref_cell_test_fail};
-use crate::lesson7::{test_iter_cust, test_slice, test_str};
-use crate::playground::linked_list::test_linked_list;
-use crate::playground::linked_list_heap::test_linked_list_heap;
-
-mod lesson1;
-mod lesson2;
-mod lesson3;
-mod lesson4;
-mod lesson5;
-mod lesson6;
-mod lesson7;
-mod playground;
+use std::rc::Rc;
+use std::cell::RefCell;
 
 fn main() {
-    let args: Vec<String> = env::args().collect();
-    dbg!(args);
-    // let file = File::open("foo.txt");
-    // let f: File = file.unwrap();
+    let shared = create(); 
+    assert_eq!(shared.borrow().is_none(), true);
 
-    // test();
-    // obrm_usage();
-    // ref_cell_test_fail();
+    let a = shared.clone();
+    let b = shared.clone();
 
-    // test_slice();
-    // test_str();
-    // test_iter_cust();
+    let value = a.borrow_mut();
     
-    test_linked_list_heap()
+    b.borrow_mut()
+        .replace(String::from("new value"));
+
+    println!("{:?}", value);
 }
-
-
+fn create() -> Rc<RefCell<Option<String>>> { 
+    Rc::new(RefCell::new(None))
+}
+fn create() -> Rc<Option<RefCell<String>>>
+fn create() -> RefCell<Rc<Option<String>>>
+fn create() -> Option<Rc<RefCell<String>>>
